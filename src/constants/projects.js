@@ -1,9 +1,10 @@
+import projectImg  from "../assets/img.png"
 export const projects = [
     {
         title: 'E-commerce Platform',
         description: 'A full-stack e-commerce application with product listings, cart functionality, and user authentication.',
         technologies: ['Angular Js', 'Node.js', 'MongoDB', 'Stripe'],
-        image: '/public/img.png',
+        image: projectImg,
         github: 'https://github.com/normsoklim/final_web_ecommerce_app',
         live: 'https://final-web-ecommerce-app-normsoklim.vercel.app',
     },
