@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { TypeAnimation } from 'react-type-animation';
 
+
 const Hero = () => {
     return (
         <section id="home" className="hero-section">
@@ -58,7 +59,7 @@ const Hero = () => {
                     transition={{ duration: 0.5 }}
                     className="hero-image"
                 >
-                    <img src="src/assets/Chibi.png" alt="Profile" />
+                    <img src="../images/Chibi.png" alt="Profile" />
                 </motion.div>
             </div>
         </section>
