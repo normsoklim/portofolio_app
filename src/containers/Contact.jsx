@@ -1,116 +1,112 @@
 import { useState } from "react";
-import { motion } from "framer-motion";
-import { FiSend, FiCheckCircle, FiMail, FiPhone, FiMapPin } from "react-icons/fi";
-import axios from "axios";
 
 const Contact = () => {
-    const [form, setForm] = useState({ name: "", email: "", message: "" });
+    const [formData, setFormData] = useState({
+        name: "",
+        email: "",
+        message: ""
+    });
     const [loading, setLoading] = useState(false);
-    const [success, setSuccess] = useState(false);
+    const [success, setSuccess] = useState("");
 
-    const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+    const handleChange = (e) => {
+        setFormData({
+            ...formData,
+            [e.target.name]: e.target.value
+        });
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        setSuccess("");
 
         try {
-            await axios.post("http://localhost:5000/api/contact", form);
-            setLoading(false);
-            setSuccess(true);
-            setForm({ name: "", email: "", message: "" });
+            const res = await fetch("https://my-express-backend-xznr.onrender.com/api/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
 
-            setTimeout(() => setSuccess(false), 4000);
+            const data = await res.json();
+            setSuccess(data.msg);
+            setFormData({ name: "", email: "", message: "" });
         } catch (err) {
-            setLoading(false);
             console.error(err);
-            alert("❌ Failed to send message. Please try again.");
+            setSuccess("Something went wrong!");
+        } finally {
+            setLoading(false);
         }
     };
 
     return (
-        <section id="contact" className="contact-section">
-            <motion.div
-                className="contact-container"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
-            >
-                {/* Left - Info */}
-                <motion.div
-                    className="contact-info"
-                    initial={{ opacity: 0, x: -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.7 }}
-                >
-                    <h2>Let’s Connect</h2>
-                    <p>Feel free to reach out for collaboration, questions, or just to say hello.</p>
-
+        <section className="contact-section">
+            <div className="contact-container">
+                {/* Contact Info */}
+                <div className="contact-info">
+                    <h2>Contact Me</h2>
+                    <p>Feel free to reach out for collaborations or just a friendly hello!</p>
                     <div className="info-items">
                         <div className="info-item">
-                            <FiMail className="info-icon" />
-                            <a href="mailto:soklim106@email.com">soklim106@email.com</a>
+                            <span className="info-icon">📧</span>
+                            <a href="mailto:soklim106@gmail.com">soklim106@gmail.com</a>
                         </div>
                         <div className="info-item">
-                            <FiPhone className="info-icon" />
-                            <a href="tel:+855716199627">+855 (716) 199-627</a>
+                            <span className="info-icon">📞</span>
+                            <a href="tel:+855716299627">+855 716299627</a>
                         </div>
                         <div className="info-item">
-                            <FiMapPin className="info-icon" />
-                            <span>Phnom Penh, Cambodia</span>
+                            <span className="info-icon">📍</span>
+                            Phnom Penh, Cambodia
                         </div>
                     </div>
-                </motion.div>
+                </div>
 
-                {/* Right - Form */}
-                <motion.form
-                    onSubmit={handleSubmit}
-                    className="contact-form"
-                    initial={{ opacity: 0, x: 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.7, delay: 0.2 }}
-                >
-                    {["name", "email", "message"].map((field) => (
-                        <div className="form-group" key={field}>
-                            <label>{field.charAt(0).toUpperCase() + field.slice(1)}</label>
-                            {field !== "message" ? (
-                                <input
-                                    type={field === "email" ? "email" : "text"}
-                                    name={field}
-                                    value={form[field]}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            ) : (
-                                <textarea
-                                    name="message"
-                                    rows="5"
-                                    value={form.message}
-                                    onChange={handleChange}
-                                    required
-                                />
-                            )}
-                        </div>
-                    ))}
+                {/* Contact Form */}
+                <form className="contact-form" onSubmit={handleSubmit}>
+                    <div className="form-group">
+                        <label htmlFor="name">Name</label>
+                        <input
+                            id="name"
+                            name="name"
+                            placeholder="Your Name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="email">Email</label>
+                        <input
+                            id="email"
+                            type="email"
+                            name="email"
+                            placeholder="Your Email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="message">Message</label>
+                        <textarea
+                            id="message"
+                            name="message"
+                            placeholder="Your Message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            rows={6}
+                            required
+                        />
+                    </div>
 
-                    <motion.button
-                        type="submit"
-                        whileHover={{ scale: 1.05 }}
-                        whileTap={{ scale: 0.95 }}
-                        disabled={loading}
-                        className="submit-btn"
-                    >
-                        {loading
-                            ? "Sending..."
-                            : success
-                                ? <span><FiCheckCircle /> Sent Successfully</span>
-                                : <span><FiSend /> Send Message</span>
-                        }
-                    </motion.button>
-                </motion.form>
-            </motion.div>
+                    <button type="submit" disabled={loading}>
+                        {loading ? "Sending..." : "Send Message"}
+                    </button>
+
+                    {success && <p className="text-green-600 text-center mt-2">{success}</p>}
+                </form>
+            </div>
         </section>
     );
 };
