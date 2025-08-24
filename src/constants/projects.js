@@ -14,7 +14,7 @@ export const projects = [
         description: 'A productivity application for managing tasks with drag-and-drop functionality and team collaboration.',
         technologies: ['C# WindowsForm', 'SQL Server', 'Material UI'],
         image: posSystem,
-        github: 'https://github.com/yourusername/task-app',
+        github: 'https://github.com/normsoklim/Pos-System-with-SQL-Server/tree/main',
         live: 'https://yourtaskapp.com',
     },
     {
