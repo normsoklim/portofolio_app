@@ -1,4 +1,5 @@
 import projectImg  from "../assets/img.png"
+import posSystem from "../assets/pos.png"
 export const projects = [
     {
         title: 'E-commerce Platform',
@@ -9,10 +10,10 @@ export const projects = [
         live: 'https://final-web-ecommerce-app-normsoklim.vercel.app',
     },
     {
-        title: 'Task Management App',
+        title: 'Pos System App',
         description: 'A productivity application for managing tasks with drag-and-drop functionality and team collaboration.',
-        technologies: ['React', 'Firebase', 'Material UI'],
-        image: '/assets/projects/taskapp.jpg',
+        technologies: ['C# WindowsForm', 'SQL Server', 'Material UI'],
+        image: posSystem,
         github: 'https://github.com/yourusername/task-app',
         live: 'https://yourtaskapp.com',
     },
